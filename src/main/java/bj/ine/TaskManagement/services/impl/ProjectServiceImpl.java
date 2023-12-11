@@ -6,6 +6,8 @@ import bj.ine.TaskManagement.entities.User;
 import bj.ine.TaskManagement.repositories.ProjectRepository;
 import bj.ine.TaskManagement.repositories.UserRepository;
 import bj.ine.TaskManagement.services.ProjectService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,5 +40,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .build();
 
         projectRepository.save(project);
+    }
+
+    @Override
+    public Page<Project> getProjects(Pageable pageable) {
+        return projectRepository.findProjectsWithManager(pageable);
     }
 }
