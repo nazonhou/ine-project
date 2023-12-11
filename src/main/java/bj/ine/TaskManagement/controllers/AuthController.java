@@ -30,20 +30,4 @@ public class AuthController {
         return new ResponseEntity<>(
                 "User registered successfully", HttpStatus.CREATED);
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        Map<String, String> errors = new HashMap<>();
-
-        exception
-                .getBindingResult()
-                .getAllErrors()
-                .forEach((error) -> {
-                    String fieldName = ((FieldError) error).getField();
-                    String errorMessage = error.getDefaultMessage();
-                    errors.put(fieldName, errorMessage);
-                });
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
 }
