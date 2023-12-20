@@ -1,7 +1,7 @@
 package bj.ine.TaskManagement.controllers;
 
 import bj.ine.TaskManagement.dtos.CreateProjectDto;
-import bj.ine.TaskManagement.entities.Project;
+import bj.ine.TaskManagement.entities.projections.ProjectDto;
 import bj.ine.TaskManagement.services.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -33,7 +33,7 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Project>> getProjects(
+    public ResponseEntity<Page<ProjectDto>> getProjects(
             @RequestParam(defaultValue = "0") String page,
             @RequestParam(defaultValue = "10") String size
     ) {
@@ -43,6 +43,13 @@ public class ProjectController {
         );
 
         return new ResponseEntity<>(projectService.getProjects(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ProjectDto getProject(
+            @PathVariable Long id
+    ) {
+        return projectService.getProject(id);
     }
 
 }

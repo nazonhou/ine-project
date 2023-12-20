@@ -13,7 +13,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 @Log
@@ -68,6 +70,8 @@ public class TaskManagementApplication {
                         .name("Project " + (i + 1))
                         .manager(manager)
                         .description("Description of project " + (i + 1))
+                        .deadline(LocalDateTime.now()
+                                .plusDays(new Random().nextLong(5, 11)))
                         .build();
                 projectRepository.save(project);
             }

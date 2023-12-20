@@ -3,6 +3,8 @@ package bj.ine.TaskManagement.services.impl;
 import bj.ine.TaskManagement.dtos.CreateProjectDto;
 import bj.ine.TaskManagement.entities.Project;
 import bj.ine.TaskManagement.entities.User;
+import bj.ine.TaskManagement.entities.projections.ProjectDto;
+import bj.ine.TaskManagement.exceptions.CustomEntityNotFoundException;
 import bj.ine.TaskManagement.repositories.ProjectRepository;
 import bj.ine.TaskManagement.repositories.UserRepository;
 import bj.ine.TaskManagement.services.ProjectService;
@@ -43,7 +45,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Page<Project> getProjects(Pageable pageable) {
+    public Page<ProjectDto> getProjects(Pageable pageable) {
         return projectRepository.findProjectsWithManager(pageable);
+    }
+
+    @Override
+    public ProjectDto getProject(Long id) {
+        Optional<ProjectDto> project = projectRepository.findProjectById(id);
+        if (project.isPresent()) {
+            return project.get();
+        }
+        throw new CustomEntityNotFoundException("Project");
     }
 }

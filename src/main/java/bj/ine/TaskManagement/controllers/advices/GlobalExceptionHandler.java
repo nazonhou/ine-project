@@ -1,5 +1,6 @@
 package bj.ine.TaskManagement.controllers.advices;
 
+import bj.ine.TaskManagement.exceptions.CustomEntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -29,5 +30,16 @@ public class GlobalExceptionHandler {
                 });
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomEntityNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEntityNotFoundException(
+            CustomEntityNotFoundException exception
+    ) {
+        Map<String, String> response = new HashMap<>();
+
+        response.put("error", exception.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
