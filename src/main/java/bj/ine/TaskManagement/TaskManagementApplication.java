@@ -67,7 +67,7 @@ public class TaskManagementApplication {
 
             for (int i = 0; i < 20; i++) {
                 Project project = Project.builder()
-                        .name("Project " + (i + 1))
+                        .name("Project_" + (i + 1))
                         .manager(manager)
                         .description("Description of project " + (i + 1))
                         .deadline(LocalDateTime.now()

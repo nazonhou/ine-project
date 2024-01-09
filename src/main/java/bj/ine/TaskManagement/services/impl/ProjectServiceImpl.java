@@ -1,6 +1,7 @@
 package bj.ine.TaskManagement.services.impl;
 
 import bj.ine.TaskManagement.dtos.CreateProjectDto;
+import bj.ine.TaskManagement.dtos.UpdateProjectDto;
 import bj.ine.TaskManagement.entities.Project;
 import bj.ine.TaskManagement.entities.User;
 import bj.ine.TaskManagement.entities.projections.ProjectDto;
@@ -57,4 +58,38 @@ public class ProjectServiceImpl implements ProjectService {
         }
         throw new CustomEntityNotFoundException("Project");
     }
+
+    @Override
+    public void updateProject(Long id, UpdateProjectDto dto) {
+        Optional<Project> optionalProject = projectRepository.findById(id);
+
+        if (optionalProject.isEmpty()) {
+            throw new CustomEntityNotFoundException("Project");
+        }
+
+        Project project = optionalProject.get();
+
+        project.setName(dto.getName());
+        project.setDescription(dto.getDescription());
+        project.setDeadline(dto.getDeadline());
+        project.setManager(
+                userRepository.findById(dto.getManagerId())
+                        .get()
+        );
+        project.setUpdatedAt(LocalDateTime.now());
+
+        projectRepository.save(project);
+    }
+
+    @Override
+    public void deleteProject(Long id) {
+        Optional<Project> optionalProject = projectRepository.findById(id);
+
+        if (optionalProject.isEmpty()) {
+            throw new CustomEntityNotFoundException("Project");
+        }
+
+        projectRepository.deleteById(id);
+    }
+
 }

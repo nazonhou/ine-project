@@ -1,6 +1,7 @@
 package bj.ine.TaskManagement.controllers;
 
 import bj.ine.TaskManagement.dtos.CreateProjectDto;
+import bj.ine.TaskManagement.dtos.UpdateProjectDto;
 import bj.ine.TaskManagement.entities.projections.ProjectDto;
 import bj.ine.TaskManagement.services.ProjectService;
 import jakarta.validation.Valid;
@@ -50,6 +51,28 @@ public class ProjectController {
             @PathVariable Long id
     ) {
         return projectService.getProject(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProject(
+            @Valid @RequestBody UpdateProjectDto dto,
+            @PathVariable Long id
+    ) {
+        projectService.updateProject(id, dto);
+
+        return new ResponseEntity<>(
+                "Project updated successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable Long id) {
+
+        projectService.deleteProject(id);
+
+        return new ResponseEntity<>(
+                "Project deleted successfully",
+                HttpStatus.OK
+        );
     }
 
 }
